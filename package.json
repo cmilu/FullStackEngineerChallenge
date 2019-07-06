@@ -1,0 +1,33 @@
+{
+  "name": "revyou",
+  "version": "0.0.1",
+  "description": "Revyou - a review system",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "test",
+    "dev:tsc:server": "tsc -p tsconfig.server.json -w",
+    "dev:server": "concurrently \"npm run dev:tsc:server\" \"nodemon dist/server/index.js\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cmilu/FullStackEngineerChallenge.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cmilu/FullStackEngineerChallenge/issues"
+  },
+  "homepage": "https://github.com/cmilu/FullStackEngineerChallenge#readme",
+  "dependencies": {
+    "koa": "^2.7.0"
+  },
+  "devDependencies": {
+    "@types/koa": "^2.0.49",
+    "concurrently": "^4.1.1",
+    "nodemon": "^1.19.1",
+    "typescript": "^3.5.2"
+  }
+}

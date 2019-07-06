@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "outDir": "dist/server",
+    "moduleResolution": "node",
+    "target": "es5",
+    "module": "commonjs",
+    "jsx": "react",
+    "lib": ["es5", "es2015", "es2016", "es2017", "dom"],
+    "removeComments": true,
+    "strict": true,
+    "noImplicitAny": true,
+    "sourceMap": true,
+    "noImplicitReturns": true,
+    "rootDir": "src/server",
+    "baseUrl": "src/server",
+    "paths": {
+      "~/*": ["./*"]
+    },
+    "esModuleInterop": true
+  },
+  "include": ["src/server"],
+  "exclude": ["node_modules", "dist"]
+}

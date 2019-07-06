@@ -1,8 +1,10 @@
 import React from "react";
 import aixos from "axios";
-import { Button, Dialog } from "@blueprintjs/core";
+import { Button, Dialog, Card } from "@blueprintjs/core";
 import Main from "~/components/Main";
 import styles from "./Top.css";
+import AddEmployee from "./AddEmployee";
+import Employee from "../..";
 
 interface State {
   employees: {
@@ -40,12 +42,23 @@ export default class Top extends React.PureComponent<{}, State> {
     });
   };
 
+  onCreatedEmployee = (employee: Employee) => {
+    const { employees } = this.state;
+    this.setState({
+      employees: {
+        total: employees.total + 1,
+        list: employees.list.concat(employee)
+      }
+    });
+    this.hideNewEmployeeDialog();
+  };
+
   render() {
     const { employees, isAddingEmployee } = this.state;
     return (
       <Main>
-        <p>
-          there are {employees.total} employees{" "}
+        <p className={styles.title}>
+          There are {employees.total} employees{" "}
           <Button
             icon="plus"
             className={styles.add}
@@ -53,14 +66,28 @@ export default class Top extends React.PureComponent<{}, State> {
           >
             Add Employee
           </Button>
-          <Dialog
-            title="Add new employee"
-            isOpen={isAddingEmployee}
-            onClose={this.hideNewEmployeeDialog}
-          >
-            holy shit
-          </Dialog>
         </p>
+
+        <div className={styles.employeeList}>
+          {employees.list.map(employee => (
+            <Card
+              interactive
+              className={styles.employeeCard}
+              key={employee.employee_id}
+            >
+              {employee.name}
+              <br />
+              {employee.employee_id}
+            </Card>
+          ))}
+        </div>
+        <Dialog
+          title="Add new employee"
+          isOpen={isAddingEmployee}
+          onClose={this.hideNewEmployeeDialog}
+        >
+          <AddEmployee onCreated={this.onCreatedEmployee} />
+        </Dialog>
       </Main>
     );
   }

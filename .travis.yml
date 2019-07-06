@@ -2,7 +2,4 @@ language: node_js
 node_js:
   - "12"
 
-before_script: bootstrap
-
-bootstrap:
-  - npm run bootstrap
+before_script: npm run bootstrap

@@ -2,11 +2,11 @@
 
 A simple review system.
 
-> original requirement is [here](./docs/assignment)
+> original requirement is [here](./docs/assignment.md)
 
 # Dev
 
-To run the app locally
+To run the app locally (node >= 10)
 
 ```
 > npm i

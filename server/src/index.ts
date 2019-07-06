@@ -1,16 +1,8 @@
-import Koa from "koa";
-import _ from "koa-route";
-import json from "koa-json";
+import express from "express";
+import { RouterEmployee } from "./routes";
 
-const app = new Koa();
-// return json response
-app.use(json());
+const app = express();
 
-// get all employee
-app.use(
-  _.get("/v1/employee", ctx => {
-    ctx.body = { total: 30 };
-  })
-);
+app.use("/employees", RouterEmployee);
 
 app.listen(8081);

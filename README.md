@@ -13,6 +13,13 @@ To run the app locally (node >= 10)
 > npm run dev
 ```
 
+then access following urls
+
+| url                                | desc          |
+| ---------------------------------- | ------------- |
+| `http://localhost:8080/`           | employee view |
+| `http://localhost:8080/admin.html` | admin view    |
+
 # Test
 
 ```

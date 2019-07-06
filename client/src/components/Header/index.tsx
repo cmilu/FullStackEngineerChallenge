@@ -1,10 +1,14 @@
 import React from "react";
 import styles from "./Header.css";
 
-export default function Header() {
+interface Props {
+  title: string;
+}
+
+export default function Header({ title }: Props) {
   return (
     <div className={styles.header}>
-      <div className={styles.logo}>RevYou</div>
+      <div className={styles.logo}>{title}</div>
     </div>
   );
 }

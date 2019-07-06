@@ -89,13 +89,13 @@ module.exports = {
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
     new HtmlWebpackPlugin({
-      chunks: "employee",
+      chunks: ["employee"],
       inject: "body",
       template: __dirname + "/public/index.ejs",
       filename: "index.html"
     }),
     new HtmlWebpackPlugin({
-      chunks: "admin",
+      chunks: ["admin"],
       inject: "body",
       template: __dirname + "/public/index.ejs",
       filename: "admin.html"

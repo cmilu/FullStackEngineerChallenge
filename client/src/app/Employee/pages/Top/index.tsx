@@ -7,7 +7,7 @@ import Main from "~/components/Main";
 interface State {
   employeeCount: number;
 }
-export default class Employee extends React.PureComponent<{}, State> {
+export default class Top extends React.PureComponent<{}, State> {
   state: State = {
     employeeCount: 0
   };
@@ -23,15 +23,12 @@ export default class Employee extends React.PureComponent<{}, State> {
 
   render() {
     return (
-      <div>
-        <Header />
-        <Main>
-          <ButtonGroup>
-            <Button icon="inbox">Reviews to me</Button>
-            <Button icon="annotation">Reviews from me</Button>
-          </ButtonGroup>
-        </Main>
-      </div>
+      <Main>
+        <ButtonGroup>
+          <Button icon="inbox">Reviews to me</Button>
+          <Button icon="annotation">Reviews from me</Button>
+        </ButtonGroup>
+      </Main>
     );
   }
 }

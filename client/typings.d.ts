@@ -5,3 +5,9 @@ declare module "*.css" {
   const classNames: IClassNames;
   export = classNames;
 }
+
+interface Employee {
+  id: number;
+  employee_id: string;
+  name: string;
+}

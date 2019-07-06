@@ -1,25 +1,13 @@
-import { Button } from "@blueprintjs/core";
-import React, { useState, useEffect } from "react";
-import aixos from "axios";
+import { HashRouter, Switch, Route } from "react-router-dom";
+import Employee from "./pages/Employee";
+import React from "react";
 
-interface State {
-  employeeCount: number;
-}
-export default class App extends React.PureComponent<{}, State> {
-  state: State = {
-    employeeCount: 0
-  };
-
-  async componentDidMount() {
-    const {
-      data: { total }
-    } = await aixos.get("/api/v1/employee");
-    this.setState({
-      employeeCount: total
-    });
-  }
-
-  render() {
-    return <p>there are {this.state.employeeCount} employees</p>;
-  }
+export default function App() {
+  return (
+    <HashRouter>
+      <Switch>
+        <Route path="/" component={Employee} />
+      </Switch>
+    </HashRouter>
+  );
 }

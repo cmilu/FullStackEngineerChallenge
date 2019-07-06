@@ -39,6 +39,7 @@ none
 #### response
 
 ```ts
+// TODO: paging
 interface ResponseEmployees {
   total: number;
   list: Employee[];
@@ -58,7 +59,7 @@ interface RequestEmployeeCreate {
 
 #### response
 
-none
+`Employee`
 
 ## 1.3. `GET /employee/{employee_id}`
 
@@ -68,9 +69,7 @@ none
 
 #### response
 
-```ts
-type ResponseEmployee = Employee;
-```
+`Employee`
 
 ## 1.3. `PUT /employee/{employee_id}`
 

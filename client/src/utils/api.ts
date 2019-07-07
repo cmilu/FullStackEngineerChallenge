@@ -1,4 +1,5 @@
 import Axios, { AxiosRequestConfig } from "axios";
+import { showAlert } from "~/components/GlobalAlert";
 
 const apiBase = "/api/v1";
 
@@ -64,6 +65,7 @@ const request = async (
 
   // if there is error
   if (res[0] !== null) {
+    showAlert({ message: res[0].message });
   }
 
   return res;

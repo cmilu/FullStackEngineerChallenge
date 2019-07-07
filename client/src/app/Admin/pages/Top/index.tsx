@@ -1,6 +1,6 @@
 import React from "react";
 import aixos from "axios";
-import { Button, Dialog, Card } from "@blueprintjs/core";
+import { Button, Dialog, Card, Icon } from "@blueprintjs/core";
 import Main from "~/components/Main";
 import styles from "./Top.css";
 import AddEmployee from "./AddEmployee";
@@ -75,9 +75,12 @@ export default class Top extends React.PureComponent<{}, State> {
               className={styles.employeeCard}
               key={employee.employee_id}
             >
-              {employee.name}
-              <br />
-              {employee.employee_id}
+              <Icon icon="user" iconSize={50} color={"#eee"} />
+              <div className={styles.employeeInfo}>
+                {employee.name}
+                <br />
+                <small>{employee.employee_id}</small>
+              </div>
             </Card>
           ))}
         </div>

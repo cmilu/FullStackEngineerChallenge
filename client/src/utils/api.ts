@@ -1,7 +1,12 @@
 import Axios, { AxiosRequestConfig } from "axios";
 import { showAlert } from "~/components/GlobalAlert";
 
-const apiBase = "/api/v1";
+type Service = "employee" | "admin";
+
+const apiBase = {
+  employee: "/api/v1",
+  admin: "/api/admin/v1/"
+};
 
 interface APIError {
   message: string;
@@ -9,11 +14,11 @@ interface APIError {
 }
 
 const request = async (
+  service: Service,
   config: AxiosRequestConfig
 ): Promise<[null | APIError, any]> => {
-  config.url = apiBase + config.url;
-
   let res: [null | APIError, object] = [null, {}];
+  config.url = apiBase[service] + config.url;
 
   try {
     const { data } = await Axios(config);
@@ -72,16 +77,16 @@ const request = async (
 };
 
 export default {
-  get(pathname: string, params?: object) {
-    return request({ method: "get", url: pathname, params });
+  get(service: Service, pathname: string, params?: object) {
+    return request(service, { method: "get", url: pathname, params });
   },
-  delete(pathname: string, params?: object) {
-    return request({ method: "delete", url: pathname, params });
+  delete(service: Service, pathname: string, params?: object) {
+    return request(service, { method: "delete", url: pathname, params });
   },
-  put(pathname: string, data?: object) {
-    return request({ method: "put", url: pathname, data });
+  put(service: Service, pathname: string, data?: object) {
+    return request(service, { method: "put", url: pathname, data });
   },
-  post(pathname: string, data?: object) {
-    return request({ method: "post", url: pathname, data });
+  post(service: Service, pathname: string, data?: object) {
+    return request(service, { method: "post", url: pathname, data });
   }
 };

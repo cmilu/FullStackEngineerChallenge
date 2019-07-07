@@ -103,4 +103,4 @@ router.delete("/employee/:id", async (req, res) => {
   }
 });
 
-export const RouterEmployee = router;
+export const RouterAdmin = router;

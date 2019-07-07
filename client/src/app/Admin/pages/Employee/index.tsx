@@ -36,6 +36,7 @@ export default class EmployeePage extends React.PureComponent<
 
   async componentDidMount() {
     const [err, info] = await api.get(
+      "admin",
       `/employee/${this.props.match.params.id}`
     );
     if (!err) {
@@ -63,7 +64,10 @@ export default class EmployeePage extends React.PureComponent<
   };
 
   delete = async () => {
-    const [err] = await api.delete(`/employee/${this.props.match.params.id}`);
+    const [err] = await api.delete(
+      "admin",
+      `/employee/${this.props.match.params.id}`
+    );
     if (!err) {
       this.props.history.replace("/");
     }

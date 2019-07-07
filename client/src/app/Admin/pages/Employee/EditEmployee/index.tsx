@@ -30,10 +30,14 @@ export default class EditEmployee extends React.PureComponent<Props, State> {
       ...this.state,
       id: this.props.employee.id
     };
-    const [err] = await api.put("/employee/" + this.props.employee.id, {
-      ...this.state,
-      id: this.props.employee.id
-    });
+    const [err] = await api.put(
+      "admin",
+      "/employee/" + this.props.employee.id,
+      {
+        ...this.state,
+        id: this.props.employee.id
+      }
+    );
 
     if (!err) {
       this.props.onSaved(data);

@@ -31,7 +31,7 @@ export default class Top extends React.PureComponent<
   };
 
   async componentDidMount() {
-    const [error, employees] = await api.get("/employees");
+    const [error, employees] = await api.get("admin", "/employees");
     if (!error) {
       this.setState({
         employees,

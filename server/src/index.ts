@@ -1,10 +1,10 @@
 import express from "express";
 import bodyParser from "body-parser";
-import { RouterEmployee } from "./routes";
+import { RouterAdmin } from "./routes";
 
 const app = express();
 
 app.use(bodyParser.json());
-app.use("/v1", RouterEmployee);
+app.use("/admin/v1", RouterAdmin);
 
 app.listen(8081);

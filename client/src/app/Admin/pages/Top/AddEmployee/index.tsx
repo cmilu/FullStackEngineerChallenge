@@ -26,7 +26,7 @@ export default class AddEmployee extends React.PureComponent<Props, State> {
   };
 
   add = async () => {
-    const [err, data] = await api.post("/employees", this.state);
+    const [err, data] = await api.post("admin", "/employees", this.state);
     if (!err) {
       this.props.onCreated(data as Employee);
     }

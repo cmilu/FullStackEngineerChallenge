@@ -17,6 +17,7 @@
 .employeeCard {
   width: calc((100% - 12px * 2) / 3);
   margin: 12px 12px 0 0;
+  background-color: #fff;
 }
 
 .employeeCard:nth-child(3n + 3) {

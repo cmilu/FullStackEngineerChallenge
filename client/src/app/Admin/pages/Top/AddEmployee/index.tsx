@@ -2,6 +2,7 @@ import React from "react";
 import { Button } from "@blueprintjs/core";
 import Axios from "axios";
 import styles from "./AddEmployee.css";
+import api from "~/utils/api";
 
 interface Props {
   onCreated: (employee: Employee) => void;
@@ -25,9 +26,16 @@ export default class AddEmployee extends React.PureComponent<Props, State> {
   };
 
   add = async () => {
-    const { data } = await Axios.post("/api/v1/employees", this.state);
-    this.props.onCreated(data);
+    const [err, data] = await api.post("/employees", this.state);
+    if (!err) {
+      this.props.onCreated(data as Employee);
+    }
   };
+
+  isValid() {
+    const { name, employee_id } = this.state;
+    return name.trim().length > 0 && employee_id.trim().length > 0;
+  }
 
   render() {
     return (
@@ -38,6 +46,7 @@ export default class AddEmployee extends React.PureComponent<Props, State> {
           placeholder="name"
           name="name"
           onChange={this.updateField}
+          required
         />
         <br />
         <br />

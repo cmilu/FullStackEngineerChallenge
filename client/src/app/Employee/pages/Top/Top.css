@@ -1,13 +1,5 @@
 .title {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.reviews {
   margin-top: 20px;
-  padding-top: 20px;
-  border-top: 1px solid #eee;
 }
 
 .reviewList {
@@ -25,14 +17,15 @@
   position: relative;
   display: flex;
   align-items: center;
+  white-space: pre;
+}
+
+.reviewUsername {
+  margin-left: 5px;
 }
 
 .reviewCard:nth-child(2n + 2) {
   margin-right: 0;
-}
-
-.reviewerName {
-  margin-left: 5px;
 }
 
 .badge {
@@ -47,7 +40,7 @@
   margin-left: 5px;
 }
 
-.delete {
+.action {
   position: absolute;
   right: 0;
 }

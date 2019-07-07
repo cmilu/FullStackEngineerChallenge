@@ -29,16 +29,21 @@ router.post(
       name: req.body.name,
       employee_id: req.body.employee_id
     };
-    const result = await db("employee").insert({
-      ...newEmployee,
-      created_at: Date.now(),
-      updated_at: Date.now()
-    });
 
-    res.json({
-      ...newEmployee,
-      id: result[0]
-    });
+    try {
+      const result = await db("employee").insert({
+        ...newEmployee,
+        created_at: Date.now(),
+        updated_at: Date.now()
+      });
+
+      res.json({
+        ...newEmployee,
+        id: result[0]
+      });
+    } catch (e) {
+      res.status(400).send();
+    }
   }
 );
 
@@ -88,10 +93,14 @@ router.get("/employee/:id", async (req, res) => {
 
 // remove an employee
 router.delete("/employee/:id", async (req, res) => {
-  const result = await db("employee")
-    .where("id", req.params.id)
-    .delete();
-  res.header(200);
+  try {
+    await db("employee")
+      .where("id", req.params.id)
+      .delete();
+    res.send();
+  } catch (e) {
+    res.status(400).send();
+  }
 });
 
 export const RouterEmployee = router;

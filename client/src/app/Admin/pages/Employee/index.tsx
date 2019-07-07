@@ -13,6 +13,7 @@ import api from "~/utils/api";
 import { RouteComponentProps } from "react-router";
 import styles from "./Employee.css";
 import EditEmployee from "./EditEmployee";
+import { showConfirm } from "~/components/GlobalAlert";
 
 interface State {
   isEditingEmployee: boolean;
@@ -61,6 +62,20 @@ export default class EmployeePage extends React.PureComponent<
     });
   };
 
+  delete = async () => {
+    const [err] = await api.delete(`/employee/${this.props.match.params.id}`);
+    if (!err) {
+      this.props.history.replace("/");
+    }
+  };
+
+  confirmDelete = (e: React.MouseEvent<HTMLButtonElement>) => {
+    showConfirm({
+      message: "Are you sure to delete this employee?",
+      onConfirm: this.delete
+    });
+  };
+
   render() {
     const { isLoading, info, isEditingEmployee } = this.state;
     return (
@@ -85,7 +100,11 @@ export default class EmployeePage extends React.PureComponent<
                   <Button icon="edit" onClick={this.showEditEmployDialog}>
                     Edit
                   </Button>
-                  <Button icon="delete" intent="danger">
+                  <Button
+                    icon="delete"
+                    intent="danger"
+                    onClick={this.confirmDelete}
+                  >
                     Delete
                   </Button>
                 </ButtonGroup>

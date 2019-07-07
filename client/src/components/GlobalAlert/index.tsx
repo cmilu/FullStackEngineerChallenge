@@ -7,7 +7,7 @@ interface ShowAlertParams {
 
 interface ShowConfirmParams extends ShowAlertParams {
   onConfirm: () => void;
-  onCancel: () => void;
+  onCancel?: () => void;
 }
 
 export let showAlert: (params: ShowAlertParams) => void;
@@ -23,6 +23,7 @@ export default class GlobalAlert extends React.PureComponent<{}, State> {
 
   componentDidMount() {
     showAlert = this.showAlert;
+    showConfirm = this.showConfirm;
   }
 
   showAlert = (params: ShowAlertParams) => {
@@ -30,6 +31,24 @@ export default class GlobalAlert extends React.PureComponent<{}, State> {
     this.setState({
       alerts: alerts.concat(
         <Alert isOpen key={alerts.length} onClose={this.dismiss}>
+          {params.message}
+        </Alert>
+      )
+    });
+  };
+
+  showConfirm = (params: ShowConfirmParams) => {
+    const { alerts } = this.state;
+    this.setState({
+      alerts: alerts.concat(
+        <Alert
+          isOpen
+          key={alerts.length}
+          onClose={this.dismiss}
+          onConfirm={params.onConfirm}
+          cancelButtonText="cancel"
+          intent="danger"
+        >
           {params.message}
         </Alert>
       )

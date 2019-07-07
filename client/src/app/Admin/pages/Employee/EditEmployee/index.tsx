@@ -2,6 +2,7 @@ import React from 'react'
 import { Button } from '@blueprintjs/core'
 import styles from './EditEmployee.css'
 import api from '~/utils/api'
+import { dismiss } from '~/components/Modals'
 
 interface Props {
   employee: Employee
@@ -40,6 +41,7 @@ export default class EditEmployee extends React.PureComponent<Props, State> {
     )
 
     if (!err) {
+      dismiss()
       this.props.onSaved(data)
     }
   }

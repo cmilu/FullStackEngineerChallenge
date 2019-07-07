@@ -8,7 +8,6 @@ import {
   Dialog,
   Card,
   Icon,
-  Tag,
   Spinner
 } from '@blueprintjs/core'
 import Main from '~/components/Main'
@@ -17,12 +16,10 @@ import api from '~/utils/api'
 import { RouteComponentProps } from 'react-router'
 import styles from './Employee.css'
 import EditEmployee from './EditEmployee'
-import { showConfirm } from '~/components/GlobalAlert'
+import { showConfirm, showModal, dismiss } from '~/components/Modals'
 import Assign from './Assign'
 
 interface State {
-  isAssigning: boolean
-  isEditingEmployee: boolean
   isLoading: boolean
   info?: Employee
   reviews: Review[]
@@ -33,8 +30,6 @@ export default class EmployeePage extends React.PureComponent<
   State
 > {
   state: State = {
-    isAssigning: false,
-    isEditingEmployee: false,
     isLoading: true,
     reviews: []
   }
@@ -56,56 +51,51 @@ export default class EmployeePage extends React.PureComponent<
     }
   }
 
-  showEditEmployDialog = (e: React.MouseEvent) => {
-    this.setState({
-      isEditingEmployee: true
-    })
+  editInfo = (e: React.MouseEvent) => {
+    const { info } = this.state
+
+    showModal(
+      <Dialog title="Edit employee" isOpen onClose={dismiss}>
+        <EditEmployee onSaved={this.onSavedEmployee} employee={info!} />
+      </Dialog>
+    )
   }
 
   showAssignDialog = (e: React.MouseEvent) => {
-    this.setState({
-      isAssigning: true
-    })
-  }
-
-  hideEditEmployeeDialog = (e?: React.SyntheticEvent<HTMLElement, Event>) => {
-    this.setState({
-      isEditingEmployee: false
-    })
-  }
-
-  hideAssignDialog = (e?: React.SyntheticEvent<HTMLElement, Event>) => {
-    this.setState({
-      isAssigning: false
-    })
+    const { reviews, info } = this.state
+    showModal(
+      <Dialog title="Add Review Assign" isOpen onClose={dismiss}>
+        <Assign
+          onSaved={this.onSavedAssign}
+          reviewers={new Set(reviews.map(review => review.reviewer.id))}
+          reviewee={info!}
+        />
+      </Dialog>
+    )
   }
 
   onSavedEmployee = (employee: Employee) => {
-    this.hideEditEmployeeDialog()
     this.setState({
       info: employee
     })
   }
 
-  delete = async () => {
-    const [err] = await api.delete(
-      'admin',
-      `/employee/${this.props.match.params.id}`
-    )
-    if (!err) {
-      this.props.history.replace('/')
-    }
-  }
-
-  confirmDelete = (e: React.MouseEvent<HTMLButtonElement>) => {
+  deleteEmployee = (e: React.MouseEvent) => {
     showConfirm({
       message: 'Are you sure to delete this employee?',
-      onConfirm: this.delete
+      onConfirm: async () => {
+        const [err] = await api.delete(
+          'admin',
+          `/employee/${this.props.match.params.id}`
+        )
+        if (!err) {
+          this.props.history.replace('/')
+        }
+      }
     })
   }
 
   onSavedAssign = (review: Review) => {
-    this.hideAssignDialog()
     this.setState({
       reviews: this.state.reviews.concat(review)
     })
@@ -127,13 +117,7 @@ export default class EmployeePage extends React.PureComponent<
   }
 
   render() {
-    const {
-      isLoading,
-      info,
-      isEditingEmployee,
-      isAssigning,
-      reviews
-    } = this.state
+    const { isLoading, info, reviews } = this.state
     return (
       <Main>
         <Loading isLoading={isLoading}>
@@ -153,13 +137,13 @@ export default class EmployeePage extends React.PureComponent<
                   ]}
                 />
                 <ButtonGroup minimal>
-                  <Button icon="edit" onClick={this.showEditEmployDialog}>
+                  <Button icon="edit" onClick={this.editInfo}>
                     Edit
                   </Button>
                   <Button
                     icon="delete"
                     intent="danger"
-                    onClick={this.confirmDelete}
+                    onClick={this.deleteEmployee}
                   >
                     Delete
                   </Button>
@@ -182,7 +166,7 @@ export default class EmployeePage extends React.PureComponent<
                       key={review.id}
                       className={styles.reviewCard}
                     >
-                      <p className={styles.reviewCardHead}>
+                      <div className={styles.reviewCardHead}>
                         <Icon icon="user" />
                         <span className={styles.reviewerName}>
                           {review.reviewer.name}
@@ -200,7 +184,7 @@ export default class EmployeePage extends React.PureComponent<
                         >
                           unassign
                         </Button>
-                      </p>
+                      </div>
                     </Card>
                   ))}
                 </div>
@@ -208,25 +192,6 @@ export default class EmployeePage extends React.PureComponent<
             </div>
           )}
         </Loading>
-        <Dialog
-          title="Edit employee"
-          isOpen={isEditingEmployee}
-          onClose={this.hideEditEmployeeDialog}
-        >
-          <EditEmployee onSaved={this.onSavedEmployee} employee={info!} />
-        </Dialog>
-
-        <Dialog
-          title="Add Review Assign"
-          isOpen={isAssigning}
-          onClose={this.hideAssignDialog}
-        >
-          <Assign
-            onSaved={this.onSavedAssign}
-            reviewers={new Set(reviews.map(review => review.reviewer.id))}
-            reviewee={info!}
-          />
-        </Dialog>
       </Main>
     )
   }

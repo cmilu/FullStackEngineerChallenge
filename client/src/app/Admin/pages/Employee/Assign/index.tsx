@@ -3,6 +3,7 @@ import { Button, MenuItem } from '@blueprintjs/core'
 import { Select, ItemPredicate, ItemRenderer } from '@blueprintjs/select'
 import styles from './Assign.css'
 import api from '~/utils/api'
+import { dismiss } from '~/components/Modals'
 
 interface Props {
   reviewee: Employee
@@ -48,6 +49,7 @@ export default class Assign extends React.PureComponent<Props, State> {
     )
 
     if (!err) {
+      dismiss()
       this.props.onSaved({
         reviewer: selectedEmployee,
         id,

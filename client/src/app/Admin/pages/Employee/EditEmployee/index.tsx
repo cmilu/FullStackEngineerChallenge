@@ -1,19 +1,19 @@
 import React from "react";
 import { Button } from "@blueprintjs/core";
-import Axios from "axios";
-import styles from "./AddEmployee.css";
+import styles from "./EditEmployee.css";
 import api from "~/utils/api";
 
 interface Props {
-  onCreated: (employee: Employee) => void;
+  employee: Employee;
+  onSaved: (employee: Employee) => void;
 }
 
 type State = Omit<Employee, "id">;
 
-export default class AddEmployee extends React.PureComponent<Props, State> {
+export default class EditEmployee extends React.PureComponent<Props, State> {
   state: State = {
-    employee_id: "",
-    name: ""
+    employee_id: this.props.employee.employee_id,
+    name: this.props.employee.name
   };
 
   updateField = ({
@@ -25,10 +25,18 @@ export default class AddEmployee extends React.PureComponent<Props, State> {
     });
   };
 
-  add = async () => {
-    const [err, data] = await api.post("/employees", this.state);
+  save = async () => {
+    const data = {
+      ...this.state,
+      id: this.props.employee.id
+    };
+    const [err] = await api.put("/employee/" + this.props.employee.id, {
+      ...this.state,
+      id: this.props.employee.id
+    });
+
     if (!err) {
-      this.props.onCreated(data as Employee);
+      this.props.onSaved(data);
     }
   };
 
@@ -39,7 +47,6 @@ export default class AddEmployee extends React.PureComponent<Props, State> {
 
   render() {
     const { employee_id, name } = this.state;
-
     return (
       <div className={styles.outer}>
         <input
@@ -48,8 +55,8 @@ export default class AddEmployee extends React.PureComponent<Props, State> {
           placeholder="name"
           name="name"
           onChange={this.updateField}
-          required
           value={name}
+          required
         />
         <br />
         <br />
@@ -64,7 +71,7 @@ export default class AddEmployee extends React.PureComponent<Props, State> {
         <br />
         <br />
         <Button
-          onClick={this.add}
+          onClick={this.save}
           intent="success"
           className={styles.save}
           disabled={!this.isValid()}

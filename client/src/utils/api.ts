@@ -10,7 +10,7 @@ interface APIError {
 
 const request = async (
   config: AxiosRequestConfig
-): Promise<[null | APIError, object]> => {
+): Promise<[null | APIError, any]> => {
   config.url = apiBase + config.url;
 
   let res: [null | APIError, object] = [null, {}];

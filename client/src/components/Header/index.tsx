@@ -8,7 +8,9 @@ interface Props {
 export default function Header({ title }: Props) {
   return (
     <div className={styles.header}>
-      <div className={styles.logo}>{title}</div>
+      <a className={styles.logo} href="#/">
+        {title}
+      </a>
     </div>
   );
 }

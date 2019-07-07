@@ -3,7 +3,7 @@ import Top from './pages/Top'
 import Employee from './pages/Employee'
 import React, { Fragment } from 'react'
 import Header from '~/components/Header'
-import Modals from '~/components/Modals'
+import Modals, { showAlert } from '~/components/Modals'
 import api from '~/utils/api'
 import Loading from '~/components/Loading'
 
@@ -18,10 +18,19 @@ export default class Admin extends React.PureComponent<{}, State> {
   async componentDidMount() {
     const [err, me] = await api.get('/session')
     if (!err) {
-      this.setState({
-        me,
-        isLoading: false
-      })
+      if (!me.admin) {
+        showAlert({
+          message: 'you are not admin',
+          onConfirm: () => {
+            location.href = '/'
+          }
+        })
+      } else {
+        this.setState({
+          me,
+          isLoading: false
+        })
+      }
     }
   }
   render() {

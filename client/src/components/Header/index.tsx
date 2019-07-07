@@ -40,7 +40,7 @@ export default function Header({ title, me }: Props) {
         content={
           <Menu>
             <MenuItem icon="home" text="home" onClick={goToTop} />
-            {me.admin && (
+            {!!me.admin && (
               <MenuItem icon="take-action" text="admin" onClick={goToAdmin} />
             )}
             <Divider />

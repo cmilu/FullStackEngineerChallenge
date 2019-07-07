@@ -1,13 +1,14 @@
 .header {
   display: flex;
   align-items: center;
-  height: 60px;
+  justify-content: space-between;
+  height: 100px;
   border-bottom: 1px solid #eee;
 }
 
 .logo {
   color: #ff0133;
   font-size: 20px;
-  font-family: Georgia, "Times New Roman", Times, serif;
+  font-family: Georgia, 'Times New Roman', Times, serif;
   text-decoration: none;
 }

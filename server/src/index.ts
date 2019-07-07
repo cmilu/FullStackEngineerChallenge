@@ -1,15 +1,61 @@
-import express from 'express'
+import express, { Request, Response, NextFunction } from 'express'
+import session from 'express-session'
 import bodyParser from 'body-parser'
 import { RouterAdmin } from './routes'
+import { RouterEmployee } from './routes'
 import { ApiError } from './var'
+import db from '../db'
 
 const app = express()
 
 app.use(bodyParser.json())
-app.use('/admin/v1', RouterAdmin)
+
+// session
+app.use(
+  session({
+    secret: 'paypaypay', // TODO: move this to config
+    resave: false,
+    saveUninitialized: true
+  })
+)
+
+// demo login
+app.post('/v1/demo/login/:userId', (req, res) => {
+  req.session!.userId = req.params.userId
+  res.send()
+})
+
+// check authentication
+const auth = async (req: Request, res: Response, next: NextFunction) => {
+  let userExists = false
+  if (req.session && req.session.userId) {
+    const [user] = await db('employee')
+      .where('id', req.session.userId)
+      .limit(1)
+    if (user) {
+      userExists = true
+    }
+  }
+  if (userExists) {
+    next()
+  } else {
+    next({
+      code: ApiError.AuthRequired
+    })
+  }
+}
+
+// admin apis
+app.use('/v1/admin', auth, RouterAdmin)
+app.use('/v1', auth, RouterEmployee)
 
 // error handler
-app.use(function(err: { code: ApiError }, _, res, next) {
+app.use(function(
+  err: { code: ApiError },
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
   if (res.headersSent) {
     return next(err)
   }

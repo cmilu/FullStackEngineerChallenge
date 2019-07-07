@@ -1,6 +1,5 @@
 import express from 'express'
 import db from '../../db'
-import { check, validationResult } from 'express-validator'
 import { ApiError } from '../var'
 const router = express.Router()
 
@@ -21,7 +20,8 @@ router.get('/employees', async (req, res, next) => {
 router.post('/employees', async (req, res, next) => {
   const newEmployee = {
     name: req.body.name,
-    employee_id: req.body.employee_id
+    employee_id: req.body.employee_id,
+    admin: req.body.admin ? 1 : 0
   }
 
   try {
@@ -46,7 +46,8 @@ router.post('/employees', async (req, res, next) => {
 router.put('/employee/:id', async (req, res, next) => {
   const newEmployee = {
     name: req.body.name,
-    employee_id: req.body.employee_id
+    employee_id: req.body.employee_id,
+    admin: req.body.admin ? 1 : 0
   }
 
   try {
@@ -73,7 +74,8 @@ router.get('/employee/:id', async (req, res, next) => {
     res.json({
       id: employee.id,
       name: employee.name,
-      employee_id: employee.employee_id
+      employee_id: employee.employee_id,
+      admin: !!employee.admin
     })
   } catch (e) {
     next({

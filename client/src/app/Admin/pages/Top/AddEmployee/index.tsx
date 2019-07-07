@@ -59,7 +59,12 @@ export default class AddEmployee extends React.PureComponent<Props, State> {
         />
         <br />
         <br />
-        <Button onClick={this.add} intent="success" className={styles.save}>
+        <Button
+          onClick={this.add}
+          intent="success"
+          className={styles.save}
+          disabled={!this.isValid()}
+        >
           Save
         </Button>
       </div>

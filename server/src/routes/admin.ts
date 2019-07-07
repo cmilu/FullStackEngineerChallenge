@@ -26,7 +26,10 @@ router.post(
   async (req, res, next) => {
     const errors = validationResult(req)
     if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() })
+      next({
+        code: 'request.malformed'
+      })
+      return
     }
 
     const newEmployee = {
@@ -150,36 +153,25 @@ router.get('/employee/:id/reviews', async (req, res, next) => {
 
 // create a new review for an employee
 // could set reviewer to anyone as assignment
-router.post(
-  '/employee/:id/reviews',
-  [check('reviewer').exists(), check('text').isLength({ max: 500 })],
-  async (req, res, next) => {
-    const errors = validationResult(req)
-    if (!errors.isEmpty()) {
-      next({
-        type: 'request.malformat'
-      })
-    }
-
-    const newReview = {
-      reviewer: req.body.reviewer,
-      reviewee: parseInt(req.params.id, 10),
-      text: req.body.text
-    }
-
-    try {
-      console.log(newReview)
-      const result = await db('review').insert(newReview)
-      res.send({
-        ...newReview,
-        id: result[0]
-      })
-    } catch (e) {
-      e.code = 'request.malformed'
-      next(e)
-    }
+router.post('/employee/:id/reviews', async (req, res, next) => {
+  console.log(req.params)
+  const newReview = {
+    reviewer: req.body.reviewer || 1, // TODO auth
+    reviewee: parseInt(req.params.id, 10),
+    text: req.body.text
   }
-)
+
+  try {
+    const result = await db('review').insert(newReview)
+    res.send({
+      ...newReview,
+      id: result[0]
+    })
+  } catch (e) {
+    e.code = 'request.malformed'
+    next(e)
+  }
+})
 
 // remove an employee
 router.delete('/review/:id', async (req, res, next) => {

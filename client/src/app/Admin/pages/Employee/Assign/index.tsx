@@ -29,7 +29,7 @@ export default class Assign extends React.PureComponent<Props, State> {
     if (!err) {
       this.setState({
         allEmployees: data.list.filter(
-          item => item.id !== this.props.reviewee.id
+          (item: Employee) => item.id !== this.props.reviewee.id
         )
       })
     }
@@ -51,7 +51,8 @@ export default class Assign extends React.PureComponent<Props, State> {
     if (!err) {
       dismiss()
       this.props.onSaved({
-        reviewer: selectedEmployee,
+        reviewee,
+        reviewer: selectedEmployee!,
         id,
         text: ''
       })

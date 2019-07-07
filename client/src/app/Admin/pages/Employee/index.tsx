@@ -8,7 +8,8 @@ import {
   Dialog,
   Card,
   Icon,
-  Spinner
+  Spinner,
+  Tag
 } from '@blueprintjs/core'
 import Main from '~/components/Main'
 import Loading from '~/components/Loading'
@@ -18,6 +19,7 @@ import styles from './Employee.css'
 import EditEmployee from './EditEmployee'
 import { showConfirm, showModal, dismiss } from '~/components/Modals'
 import Assign from './Assign'
+import AddReview from './AddReview'
 
 interface State {
   isLoading: boolean
@@ -66,7 +68,7 @@ export default class EmployeePage extends React.PureComponent<
     showModal(
       <Dialog title="Add Review Assign" isOpen onClose={dismiss}>
         <Assign
-          onSaved={this.onSavedAssign}
+          onSaved={this.onReviewAdded}
           reviewers={new Set(reviews.map(review => review.reviewer.id))}
           reviewee={info!}
         />
@@ -95,7 +97,7 @@ export default class EmployeePage extends React.PureComponent<
     })
   }
 
-  onSavedAssign = (review: Review) => {
+  onReviewAdded = (review: Review) => {
     this.setState({
       reviews: this.state.reviews.concat(review)
     })
@@ -114,6 +116,14 @@ export default class EmployeePage extends React.PureComponent<
         }
       }
     })
+  }
+
+  addReview = () => {
+    showModal(
+      <Dialog title="Add Your Review" isOpen onClose={dismiss}>
+        <AddReview reviewee={this.state.info!} onCreated={this.onReviewAdded} />
+      </Dialog>
+    )
   }
 
   render() {
@@ -140,11 +150,7 @@ export default class EmployeePage extends React.PureComponent<
                   <Button icon="edit" onClick={this.editInfo}>
                     Edit
                   </Button>
-                  <Button
-                    icon="delete"
-                    intent="danger"
-                    onClick={this.deleteEmployee}
-                  >
+                  <Button intent="danger" onClick={this.deleteEmployee}>
                     Delete
                   </Button>
                 </ButtonGroup>
@@ -156,7 +162,9 @@ export default class EmployeePage extends React.PureComponent<
                   <Button icon="share" onClick={this.showAssignDialog}>
                     Add Assign
                   </Button>
-                  <Button icon="annotation">Your Review</Button>
+                  <Button icon="annotation" onClick={this.addReview}>
+                    Your Review
+                  </Button>
                 </ButtonGroup>
 
                 <div className={styles.reviewList}>
@@ -171,20 +179,26 @@ export default class EmployeePage extends React.PureComponent<
                         <span className={styles.reviewerName}>
                           {review.reviewer.name}
                         </span>
-                        <div className={styles.badge}>
-                          <Spinner size={12}></Spinner>
-                          <span className={styles.label}>waiting</span>
-                        </div>
+                        {review.text ? (
+                          <Tag intent="success" className={styles.badge}>
+                            done
+                          </Tag>
+                        ) : (
+                          <div className={styles.badge}>
+                            <Spinner size={12}></Spinner>
+                            <span className={styles.label}>waiting</span>
+                          </div>
+                        )}
                         <Button
-                          icon="delete"
                           minimal
                           intent="danger"
                           className={styles.delete}
                           onClick={() => this.deleteReview(review)}
                         >
-                          unassign
+                          {review.text ? 'delete' : 'unassign'}
                         </Button>
                       </div>
+                      <p className={styles.reviewText}>{review.text}</p>
                     </Card>
                   ))}
                 </div>

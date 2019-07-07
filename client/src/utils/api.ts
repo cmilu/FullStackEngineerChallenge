@@ -5,7 +5,7 @@ type Service = 'employee' | 'admin'
 
 const apiBase = {
   employee: '/api/v1',
-  admin: '/api/admin/v1/'
+  admin: '/api/admin/v1'
 }
 
 interface APIError {

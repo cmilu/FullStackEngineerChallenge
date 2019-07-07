@@ -44,10 +44,15 @@
 }
 
 .badge .label {
-  margin-left: 10px;
+  margin-left: 5px;
 }
 
 .delete {
   position: absolute;
   right: 0;
+}
+
+.reviewText {
+  margin-top: 12px;
+  white-space: pre-line;
 }

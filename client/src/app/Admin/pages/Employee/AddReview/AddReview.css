@@ -1,0 +1,12 @@
+.outer {
+  padding: 24px 24px 0;
+}
+
+.save {
+  display: block;
+  margin-top: 24px;
+}
+
+.textArea {
+  width: 100%;
+}

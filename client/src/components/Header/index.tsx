@@ -36,7 +36,17 @@ export default function Header({ title, me }: Props) {
       <a className={styles.logo} href="#/">
         {title}
       </a>
+      {!!me.admin && (
+        <Button
+          icon="take-action"
+          text="admin"
+          onClick={goToAdmin}
+          minimal
+          intent="danger"
+        />
+      )}
       <Popover
+        className={styles.menu}
         content={
           <Menu>
             <MenuItem icon="home" text="home" onClick={goToTop} />

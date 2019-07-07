@@ -19,7 +19,6 @@ import styles from './Employee.css'
 import EditEmployee from './EditEmployee'
 import { showConfirm, showModal, dismiss, showAlert } from '~/components/Modals'
 import Assign from './Assign'
-import AddReview from './AddReview'
 
 interface State {
   isLoading: boolean
@@ -127,19 +126,6 @@ export default class EmployeePage extends React.PureComponent<
     })
   }
 
-  addReview = () => {
-    const { info } = this.state
-    showModal(
-      <Dialog
-        title={`Add Your Review to ${info!.name}`}
-        isOpen
-        onClose={dismiss}
-      >
-        <AddReview reviewee={info!} onCreated={this.onReviewAdded} />
-      </Dialog>
-    )
-  }
-
   render() {
     const { isLoading, info, reviews } = this.state
     return (
@@ -176,9 +162,6 @@ export default class EmployeePage extends React.PureComponent<
                 <ButtonGroup>
                   <Button icon="share" onClick={this.showAssignDialog}>
                     Add Assign
-                  </Button>
-                  <Button icon="annotation" onClick={this.addReview}>
-                    Your Review
                   </Button>
                 </ButtonGroup>
 

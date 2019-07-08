@@ -126,7 +126,7 @@ export default class EmployeePage extends React.PureComponent<
     })
   }
 
-  demoLogin = async (e: React.MouseEvent<HTMLButtonElement>) => {
+  demoLogin = async (e: React.MouseEvent) => {
     const [err] = await api.post('/demo/login/' + this.props.match.params.id)
     if (!err) {
       location.reload()
@@ -154,11 +154,7 @@ export default class EmployeePage extends React.PureComponent<
                   ]}
                 />
                 <ButtonGroup minimal>
-                  <Button
-                    icon="user"
-                    onClick={this.editInfo}
-                    onClick={this.demoLogin}
-                  >
+                  <Button icon="user" onClick={this.demoLogin}>
                     demo login with this account
                   </Button>
                   <Button icon="edit" onClick={this.editInfo} intent="primary">

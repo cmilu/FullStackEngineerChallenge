@@ -4,21 +4,26 @@ A simple review system.
 
 > original requirement is [here](./docs/assignment.md)
 
-# Dev
+# Demo
 
-To run the app locally (node >= 10)
+To run the app locally (node >= 10):
 
 ```
-> npm i
+> npm bootstrap
 > npm run dev
 ```
 
-then access following urls
+Then access `http://localhost:8080/`, you should be able login with admin/non-admin account.
 
-| url                                | desc          |
-| ---------------------------------- | ------------- |
-| `http://localhost:8080/`           | employee view |
-| `http://localhost:8080/admin.html` | admin view    |
+# Features
+
+Following features are implemented
+
+- [admin] add/update/delete employee
+- [admin] view reviewe/update reviewer assignment
+- [home] view reviews/review others
+
+Manuals are detailed [here](./docs/manual.md)
 
 # Test
 

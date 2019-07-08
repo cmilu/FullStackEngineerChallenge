@@ -126,6 +126,13 @@ export default class EmployeePage extends React.PureComponent<
     })
   }
 
+  demoLogin = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    const [err] = await api.post('/demo/login/' + this.props.match.params.id)
+    if (!err) {
+      location.reload()
+    }
+  }
+
   render() {
     const { isLoading, info, reviews } = this.state
     return (
@@ -147,7 +154,14 @@ export default class EmployeePage extends React.PureComponent<
                   ]}
                 />
                 <ButtonGroup minimal>
-                  <Button icon="edit" onClick={this.editInfo}>
+                  <Button
+                    icon="user"
+                    onClick={this.editInfo}
+                    onClick={this.demoLogin}
+                  >
+                    demo login with this account
+                  </Button>
+                  <Button icon="edit" onClick={this.editInfo} intent="primary">
                     Edit
                   </Button>
 

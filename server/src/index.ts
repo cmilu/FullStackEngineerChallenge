@@ -36,7 +36,13 @@ const auth = (admin?: boolean) => {
       const [user] = await db('employee')
         .where('id', req.session.userId)
         .limit(1)
-      if (user && (!admin || user.admin === 1)) {
+      if (user) {
+        if (admin && user.admin !== 1) {
+          next({
+            code: ApiError.AuthForbidden
+          })
+          return
+        }
         userExists = true
       }
     }
@@ -80,4 +86,6 @@ app.use(function(
   res.send(err.code)
 })
 
-app.listen(8081)
+export const server = app.listen(8081)
+
+export default app

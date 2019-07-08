@@ -15,17 +15,17 @@ export default function DemoLogin() {
       <div className={styles.outer}>
         <p>please choose an account to login</p>
         <Button onClick={() => login(1)} icon="user">
-          Admin (id: 1)
+          PayPay(id: 1, Admin)
         </Button>
         <br />
         <br />
         <Button onClick={() => login(2)} icon="user">
-          Non-Admin(id: 2){' '}
+          Abe(id: 2){' '}
         </Button>
         <br />
         <br />
         <Button onClick={() => login(3)} icon="user">
-          Non-Admin(id: 3)
+          Trump(id: 3)
         </Button>
       </div>
     </Dialog>

@@ -15,7 +15,6 @@ const request = async (
 ): Promise<[null | APIError, any]> => {
   let res: [null | APIError, object] = [null, {}]
   config.url = apiBase + config.url
-
   try {
     const { data } = await Axios(config)
     res = [null, data]
@@ -73,7 +72,6 @@ const request = async (
       showAlert({ message: res[0].message })
     }
   }
-
   return res
 }
 
